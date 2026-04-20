@@ -1,0 +1,44 @@
+{
+    "name": "thatobabusi/laravel-13-cheat-sheet",
+    "description": "Comprehensive Laravel 13 quick-reference cheat sheet — 34 sections, PHP 8.2+. Publishes docs to your project.",
+    "keywords": ["laravel", "cheat-sheet", "reference", "docs", "php8", "laravel13"],
+    "homepage": "https://github.com/thatobabusi/laravel-13-cheat-sheet",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thato Babusi",
+            "email": "thato@thatobabusi.com",
+            "homepage": "https://thatobabusi.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11|^12|^13"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9|^10",
+        "phpunit/phpunit": "^11"
+    },
+    "autoload": {
+        "psr-4": {
+            "Thatobabusi\\LaravelCheatSheet\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Thatobabusi\\LaravelCheatSheet\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Thatobabusi\\LaravelCheatSheet\\LaravelCheatSheetServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
