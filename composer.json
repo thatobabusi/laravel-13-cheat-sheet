@@ -1,5 +1,6 @@
 {
     "name": "thatobabusi/laravel-13-cheat-sheet",
+    "version": "1.0.0",
     "description": "Comprehensive Laravel 13 quick-reference cheat sheet — 34 sections, PHP 8.2+. Publishes docs to your project.",
     "keywords": ["laravel", "cheat-sheet", "reference", "docs", "php8", "laravel13"],
     "homepage": "https://github.com/thatobabusi/laravel-13-cheat-sheet",

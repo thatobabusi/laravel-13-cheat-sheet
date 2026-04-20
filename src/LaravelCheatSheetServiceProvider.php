@@ -21,7 +21,7 @@ class LaravelCheatSheetServiceProvider extends ServiceProvider
     private function publishDocs(): void
     {
         $this->publishes([
-            __DIR__ . '/../docs' => base_path('docs'),
+            __DIR__ . '/../docs' => base_path('docs/laravel-13-cheat-sheet'),
         ], 'laravel13-cheatsheet');
     }
 }
