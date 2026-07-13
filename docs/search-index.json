@@ -1,0 +1,17 @@
+---
+layout: null
+---
+{
+  "docs": [
+    {% for file in site.static_files %}
+      {% if file.path contains '/cheatsheet/' and file.extname == '.md' and file.path != '/cheatsheet/README.md' %}
+        {
+          "id": "{{ file.path | remove: '.md' }}",
+          "title": "{{ file.name | remove: '.md' | replace: '-', ' ' | capitalize }}",
+          "url": "{{ file.path | remove: '.md' | relative_url }}/",
+          "category": "{{ file.path | split: '/' | [2] }}"
+        }{% unless forloop.last %},{% endunless %}
+      {% endif %}
+    {% endfor %}
+  ]
+}
