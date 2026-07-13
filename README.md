@@ -23,7 +23,7 @@
 
 <br/>
 
-**[🌍 Visit the Website](https://thatobabusi.co.za)** · **[📖 Raw Cheat Sheet](https://raw.githubusercontent.com/thatobabusi/laravel-13-cheat-sheet/main/LARAVEL-13-CHEATSHEET.md)** · **[📚 Full Ref](LARAVEL-13-CHEATSHEET.md)** · **[📜 Changelog](CHANGELOG.md)**
+**[🔍 Search the Cheat Sheet](docs/search/)** · **[📖 Organized Docs](docs/cheatsheet/)** · **[📚 Full Reference](LARAVEL-13-CHEATSHEET.md)** · **[📜 Changelog](CHANGELOG.md)**
 
 </div>
 
@@ -36,27 +36,28 @@
 
 ---
 
-## Contents — 34 Sections
+## 📚 Content Organization
 
-| # | Section | # | Section |
-|---|---|---|---|
-| 1 | [Artisan](#artisan) | 18 | [HTTP Client](#http-client) |
-| 2 | [Application Bootstrap](#application-bootstrap) | 19 | [Cache](#cache) |
-| 3 | [Config](#config) | 20 | [Session](#session) |
-| 4 | [Routing](#routing) | 21 | [Cookies](#cookies) |
-| 5 | [Middleware](#middleware) | 22 | [Storage](#storage) |
-| 6 | [Controllers](#controllers) | 23 | [Logging & Context](#logging--context) |
-| 7 | [Requests](#requests) | 24 | [Service Container](#service-container) |
-| 8 | [Responses](#responses) | 25 | [Service Providers](#service-providers) |
-| 9 | [Redirects](#redirects) | 26 | [Collections](#collections) |
-| 10 | [Views & Blade](#views--blade) | 27 | [Strings — Str](#strings--str) |
-| 11 | [Eloquent ORM](#eloquent-orm) | 28 | [Arrays — Arr](#arrays--arr) |
-| 12 | [Query Builder](#query-builder) | 29 | [Helpers](#helpers) |
-| 13 | [Schema & Migrations](#schema--migrations) | 30 | [Validation](#validation) |
-| 14 | [Authentication & Sanctum](#authentication--sanctum) | 31 | [Events & Listeners](#events--listeners) |
-| 15 | [Authorization](#authorization) | 32 | [Jobs & Queues](#jobs--queues) |
-| 16 | [Notifications](#notifications) | 33 | [Task Scheduling](#task-scheduling) |
-| 17 | [Mail](#mail) | 34 | [Testing — Pest / PHPUnit](#testing--pest--phpunit) |
+**New!** The cheat sheet is now organized into **10 categories** for easy navigation:
+
+- **[🌐 Organized by Category](docs/cheatsheet/)** — Explore topics grouped into logical sections with backlinks
+- **[🔍 Full-Text Search](docs/search/)** — Find what you need instantly with fast client-side search
+- **[📖 Classic Reference](LARAVEL-13-CHEATSHEET.md)** — Original monolithic format with all 34 sections
+
+### 10 Categories
+
+| Category | Topics |
+|----------|--------|
+| **📌 Core Framework** | Artisan, Bootstrap, Config, Routing, Middleware |
+| **🌐 HTTP** | Controllers, Requests, Responses, Redirects, Views & Blade |
+| **💾 Database** | Eloquent ORM, Scopes, Factories, Query Builder, Migrations |
+| **🔐 Auth & Authorization** | Authentication, Sanctum, Policies, Gates |
+| **💬 Communication** | Notifications, Mail |
+| **🛠️ Utilities** | HTTP Client, Cache, Session, Cookies, Storage, Logging |
+| **🏗️ Patterns** | Service Container, Service Providers |
+| **📊 Data Processing** | Collections, Strings, Arrays, Helpers |
+| **✅ Validation** | Rules, Custom Validation |
+| **🚀 Advanced** | Events, Jobs, Scheduling, Testing |
 
 ---
 
