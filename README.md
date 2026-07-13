@@ -23,7 +23,7 @@
 
 <br/>
 
-**[🚀 Open in Browser](public/index.html)** · **[📚 Full Reference](LARAVEL-13-CHEATSHEET.md)** · **[📜 Changelog](CHANGELOG.md)** · **[⚙️ Setup Guide](START-SERVER.md)**
+**[🌐 View Live](https://thatobabusi.github.io/laravel-13-cheat-sheet/)** · **[📚 Full Reference](LARAVEL-13-CHEATSHEET.md)** · **[📜 Changelog](CHANGELOG.md)** · **[⚙️ Setup](GITHUB-PAGES-SETUP.md)**
 
 </div>
 
@@ -79,11 +79,14 @@
 
 ---
 
-## Usage
+## 🌐 Access the Cheat Sheet
 
-### 🚀 Quick Start
+### Option 1: Live Website (Recommended)
+**🔗 https://thatobabusi.github.io/laravel-13-cheat-sheet/**
 
-**Option 1: Browser App (Recommended)**
+Automatically deployed on every push via GitHub Actions.
+
+### Option 2: Local Development
 ```bash
 # Start local server (pick one)
 python -m http.server 8000              # Python
@@ -93,19 +96,18 @@ php -S localhost:8000 (in public/)      # PHP
 # Then open http://localhost:8000
 ```
 
-**Option 2: GitHub Pages (when deployed)**
-- Visit: `https://thatobabusi.github.io/laravel-13-cheat-sheet/`
+### Option 3: Classic Reference
+View the full markdown file: `LARAVEL-13-CHEATSHEET.md`
 
-**Option 3: Classic Reference**
-- Open `LARAVEL-13-CHEATSHEET.md` directly for the original monolithic format
+## ✨ Features
 
-### ✨ Browser Features
-- 📖 Browse by category (10 organized sections)
-- 🔍 Full-text search with instant results
-- 🌙 Dark mode support
-- 📱 Responsive design
-- ⌨️ Keyboard shortcut: Cmd+K / Ctrl+K
-- 📝 All 34 sections of Laravel 13 reference
+- 📖 **Browse by Category** — 10 organized sections with sidebar navigation
+- 🔍 **Full-Text Search** — Real-time search across all 34 Laravel topics
+- 🌙 **Dark Mode** — Automatically follows system preference
+- 📱 **Responsive Design** — Works perfectly on desktop, tablet, mobile
+- ⌨️ **Keyboard Shortcuts** — Press Cmd+K or Ctrl+K to search
+- ⚡ **No Build Required** — Pure HTML/CSS/JavaScript, instant load
+- 🚀 **GitHub Pages Ready** — Deployed automatically on push
 
 ---
 
