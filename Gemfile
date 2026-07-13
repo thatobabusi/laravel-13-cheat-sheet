@@ -21,6 +21,5 @@ end
 # Performance-booster for watching directories on Windows
 gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
 
-# Lock `http_parser.rb` gemoby specifying the default value of usages seeing the latest neither
-# notified if it is needed or not.
+# Lock `http_parser.rb` gem by specifying the default value
 gem "http_parser.rb", "~> 0.6.0", :platforms => [:jruby]
