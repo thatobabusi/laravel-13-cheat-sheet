@@ -13,7 +13,7 @@
     try {
       const response = await fetch(getBasePath() + '/search-index.json');
       const data = await response.json();
-      searchIndex = data.docs || [];
+      searchIndex = Array.isArray(data) ? data : (data.docs || []);
       console.log(`Loaded ${searchIndex.length} documents into search index`);
     } catch (error) {
       console.error('Failed to load search index:', error);
