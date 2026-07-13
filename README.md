@@ -23,7 +23,7 @@
 
 <br/>
 
-**[🔍 Search the Cheat Sheet](docs/search/)** · **[📖 Organized Docs](docs/cheatsheet/)** · **[📚 Full Reference](LARAVEL-13-CHEATSHEET.md)** · **[📜 Changelog](CHANGELOG.md)**
+**[🚀 Open in Browser](public/index.html)** · **[📚 Full Reference](LARAVEL-13-CHEATSHEET.md)** · **[📜 Changelog](CHANGELOG.md)** · **[⚙️ Setup Guide](START-SERVER.md)**
 
 </div>
 
@@ -81,17 +81,31 @@
 
 ## Usage
 
-**Browse on GitHub** — rendered Markdown with anchor links for each section.
+### 🚀 Quick Start
 
-**Clone locally:**
+**Option 1: Browser App (Recommended)**
 ```bash
-git clone https://github.com/thatobabusi/laravel-13-cheat-sheet.git
+# Start local server (pick one)
+python -m http.server 8000              # Python
+npx http-server public -p 8000          # Node.js
+php -S localhost:8000 (in public/)      # PHP
+
+# Then open http://localhost:8000
 ```
 
-**Open the cheat sheet:**
-```
-LARAVEL-13-CHEATSHEET.md
-```
+**Option 2: GitHub Pages (when deployed)**
+- Visit: `https://thatobabusi.github.io/laravel-13-cheat-sheet/`
+
+**Option 3: Classic Reference**
+- Open `LARAVEL-13-CHEATSHEET.md` directly for the original monolithic format
+
+### ✨ Browser Features
+- 📖 Browse by category (10 organized sections)
+- 🔍 Full-text search with instant results
+- 🌙 Dark mode support
+- 📱 Responsive design
+- ⌨️ Keyboard shortcut: Cmd+K / Ctrl+K
+- 📝 All 34 sections of Laravel 13 reference
 
 ---
 
