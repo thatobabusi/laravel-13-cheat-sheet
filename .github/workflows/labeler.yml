@@ -1,0 +1,51 @@
+name: Labeler
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  labeler:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7.0.0
+
+      - name: Label PR by files
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            const changedFiles = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+
+            const files = changedFiles.data.map(f => f.filename);
+            const labels = [];
+
+            if (files.some(f => f.startsWith('docs/'))) {
+              labels.push('documentation');
+            }
+            if (files.some(f => f.startsWith('tests/'))) {
+              labels.push('testing');
+            }
+            if (files.some(f => f.startsWith('.github/'))) {
+              labels.push('workflows');
+            }
+            if (files.some(f => f.includes('COMMIT') || f.includes('BRANCHING') || f.includes('RELEASE'))) {
+              labels.push('standards');
+            }
+
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: labels,
+              });
+            }
