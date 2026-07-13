@@ -1,0 +1,29 @@
+{
+  "name": "laravel-13-cheat-sheet",
+  "version": "1.1.0",
+  "description": "Comprehensive Laravel 13 reference with organized categories and full-text search",
+  "type": "module",
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:headed": "playwright test --headed",
+    "dev": "python -m http.server 8000 --directory public"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  },
+  "keywords": [
+    "laravel",
+    "php",
+    "cheat-sheet",
+    "reference",
+    "documentation"
+  ],
+  "author": "Thato Babusi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thatobabusi/laravel-13-cheat-sheet.git"
+  }
+}
