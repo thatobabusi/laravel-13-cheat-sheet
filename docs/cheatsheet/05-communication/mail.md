@@ -1,82 +1,262 @@
-# Mail
+﻿# Mail
 
-> Send emails with Laravel Mail using mailables and markdown templates.
-> **Part of:** [[Laravel 13 Cheat Sheet]] | **Category:** Communication
+## Configuration
 
-## Create Mailable
+```php
+// .env file
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=465
+MAIL_USERNAME=your_username
+MAIL_PASSWORD=your_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=from@example.com
+MAIL_FROM_NAME="Example App"
+```
+
+## Available Drivers
+
+- smtp
+- mailgun
+- postmark
+- ses
+- sendmail
+- array (for testing)
+- log (for debugging)
+
+## Sending Mail
+
+### Basic Mail
+
+```php
+use Illuminate\Support\Facades\Mail;
+
+Mail::to('user@example.com')->send(new WelcomeMail());
+
+// Multiple recipients
+Mail::to(['user1@example.com', 'user2@example.com'])->send(new NotificationMail());
+
+// CC and BCC
+Mail::to('user@example.com')
+    ->cc('cc@example.com')
+    ->bcc('bcc@example.com')
+    ->send(new Mail());
+
+// Reply-to
+Mail::to('user@example.com')
+    ->replyTo('reply@example.com')
+    ->send(new WelcomeMail());
+```
+
+### From Address
+
+```php
+Mail::from('sender@example.com')->send(new WelcomeMail());
+Mail::mailer('postmark')->to('user@example.com')->send(new Mail());
+```
+
+## Generating Mailables
 
 ```bash
+php artisan make:mail WelcomeMail
 php artisan make:mail OrderShipped --markdown=emails.orders.shipped
 ```
 
-## Define Mailable
+## Mailable Class
 
 ```php
-class OrderShipped extends Mailable implements ShouldQueue
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+
+class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public Order $order) {}
+    public $user;
+
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Order Shipped',
-            from: new Address('shop@example.com', 'My Shop'),
-            replyTo: [new Address('noreply@example.com')],
-            tags: ['order-shipped'],
-            metadata: ['order_id' => $this->order->id],
+            subject: 'Welcome to Our Site',
+            from: 'hello@example.com'
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.orders.shipped',
-            // OR: view: 'emails.orders.shipped',
-            with: ['trackingNumber' => $this->order->tracking],
+            view: 'emails.welcome',
+            text: 'emails.welcome_text',
         );
     }
 
     public function attachments(): array
     {
-        return [
-            Attachment::fromPath('/path/to/file.pdf')->as('Invoice.pdf')->withMime('application/pdf'),
-            Attachment::fromStorage('uploads/invoice.pdf'),
-            Attachment::fromStorageDisk('s3', 'invoices/1.pdf'),
-            Attachment::fromData(fn() => $this->order->generatePdf(), 'Invoice.pdf'),
-        ];
+        return [];
+    }
+
+    public function build()
+    {
+        return $this->view('emails.welcome')
+                    ->with(['user' => $this->user])
+                    ->attach('/path/to/file.pdf');
     }
 }
 ```
 
-## Send Mail
+## Mail Templates
 
-```php
-Mail::to($user)->send(new OrderShipped($order));
-Mail::to('user@example.com')->cc($manager)->bcc($admin)->send(new OrderShipped($order));
-Mail::to($user)->queue(new OrderShipped($order));
-Mail::to($user)->later(now()->addHour(), new OrderShipped($order));
-Mail::to($user)->sendNow(new OrderShipped($order));  // bypass queue
-
-// Multiple recipients
-Mail::to($users)->send(new OrderShipped($order));
-```
-
-## Markdown Mail Template
+### Blade Template
 
 ```blade
-{{-- resources/views/emails/orders/shipped.blade.php --}}
+<!-- resources/views/emails/welcome.blade.php -->
+<h1>Welcome {{ $user->name }}!</h1>
+
+<p>Thank you for joining our community.</p>
+
+<a href="{{ url('/') }}">Visit our site</a>
+```
+
+### Markdown Template
+
+```blade
+<!-- resources/views/emails/orders/shipped.blade.php -->
 @component('mail::message')
 # Order Shipped
 
-@component('mail::button', ['url' => $url])
-Track Order
+Your order has been shipped!
+
+@component('mail::button', ['url' => url('/orders/'.$order->id)])
+View Order
 @endcomponent
 
+Thanks,
+{{ config('app.name') }}
 @endcomponent
 ```
 
----
+## Sending Mail
 
-**See Also:** [[notifications]] | [[queues]]
+### From Controller
+
+```php
+use App\Mail\WelcomeMail;
+
+public function register(Request $request)
+{
+    $user = User::create($request->validated());
+    
+    Mail::to($user->email)->send(new WelcomeMail($user));
+    
+    return redirect('/');
+}
+```
+
+### Queued Mail
+
+```php
+// Async sending
+Mail::to('user@example.com')->queue(new WelcomeMail());
+
+// With delay
+Mail::to('user@example.com')->later(now()->addMinutes(10), new WelcomeMail());
+```
+
+## Attachments
+
+```php
+// File attachment
+$this->attach('/path/to/file.pdf');
+
+// With custom name
+$this->attach('/path/to/file.pdf', ['as' => 'custom-name.pdf']);
+
+// From memory
+$this->attachData('file content', 'filename.txt');
+
+// In mailable
+public function attachments(): array
+{
+    return [
+        Attachment::fromPath('/path/to/file.pdf')
+            ->as('filename.pdf'),
+    ];
+}
+```
+
+## Local Development
+
+### Using Log Driver
+
+```php
+// .env
+MAIL_DRIVER=log
+
+// Emails will be logged to storage/logs/
+```
+
+### Using Array Driver
+
+```php
+// .env
+MAIL_DRIVER=array
+
+// In tests
+Mail::fake();
+Mail::assertSent(WelcomeMail::class);
+```
+
+### Using Mailtrap
+
+1. Sign up at mailtrap.io
+2. Get credentials from dashboard
+3. Add to .env
+4. Check inbox at mailtrap.io
+
+## Testing Mail
+
+```php
+use Illuminate\Support\Facades\Mail;
+
+public function test_welcome_mail_sent()
+{
+    Mail::fake();
+    
+    // Perform action that sends mail
+    User::factory()->create();
+    
+    // Assert mail was sent
+    Mail::assertSent(WelcomeMail::class);
+    
+    // Assert sent to specific address
+    Mail::assertSent(WelcomeMail::class, function ($mail) {
+        return $mail->hasTo('user@example.com');
+    });
+}
+```
+
+## Markdown Components
+
+```blade
+@component('mail::button', ['url' => $url])
+Button Text
+@endcomponent
+
+@component('mail::panel')
+Panel content
+@endcomponent
+
+@component('mail::table')
+| Column | Value |
+| --- | --- |
+| Name | John Doe |
+@endcomponent
+```

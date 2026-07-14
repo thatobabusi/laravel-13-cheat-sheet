@@ -1,101 +1,204 @@
-# Authorization
-
-> Control what authenticated users can do with gates and policies.
-> **Part of:** [[Laravel 13 Cheat Sheet]] | **Category:** Authentication & Authorization
+﻿# Authorization
 
 ## Gates
 
-Define in AppServiceProvider::boot:
+### Defining Gates
 
 ```php
+// In AuthServiceProvider boot() method
 Gate::define('update-post', function (User $user, Post $post) {
     return $user->id === $post->user_id;
 });
 
-Gate::define('view-admin', fn(User $user) => $user->is_admin);
+Gate::define('create-post', function (User $user) {
+    return $user->is_admin;
+});
 ```
 
-## Check Gates
+### Using Gates
 
 ```php
-Gate::allows('update-post', $post);
-Gate::denies('update-post', $post);
-Gate::any(['update-post', 'delete-post'], $post);
-Gate::none(['update-post', 'delete-post'], $post);
-Gate::check('update-post', $post);
-Gate::authorize('update-post', $post);        // throws 403 if denied
-Gate::inspect('update-post', $post);          // returns Response
-Gate::forUser($user)->allows('update-post', $post);
-```
+// Check authorization
+if (Gate::allows('update-post', $post)) {
+    // User is authorized
+}
 
-## Controllers
+if (Gate::denies('update-post', $post)) {
+    // User is not authorized
+}
 
-```php
-$this->authorize('update', $post);
-$this->authorize('create', Post::class);
-$this->authorizeResource(Post::class, 'post');  // maps all resource actions
+// In controller
+if (auth()->user()->can('update-post', $post)) {
+    // Authorized
+}
+
+// Throw exception if not authorized
+Gate::authorize('update-post', $post); // Throws AuthorizationException
 ```
 
 ## Policies
 
-Create a policy:
-
-```bash
-php artisan make:policy PostPolicy --model=Post
-```
-
-### Policy Methods
+### Creating Policies
 
 ```php
+// Generate policy: php artisan make:policy PostPolicy --model=Post
+namespace App\Policies;
+
+use App\Models\Post;
+use App\Models\User;
+
 class PostPolicy
 {
-    public function viewAny(User $user): bool { return true; }
-    public function view(User $user, Post $post): bool { return true; }
-    public function create(User $user): bool { return $user->is_verified; }
-    public function update(User $user, Post $post): bool { return $user->id === $post->user_id; }
-    public function delete(User $user, Post $post): bool { return $user->id === $post->user_id; }
-    public function restore(User $user, Post $post): bool { return $user->is_admin; }
-    public function forceDelete(User $user, Post $post): bool { return $user->is_admin; }
+    // Ability checks
+    public function create(User $user): bool
+    {
+        return $user->is_verified;
+    }
+
+    public function view(User $user, Post $post): bool
+    {
+        return true; // Anyone can view
+    }
+
+    public function update(User $user, Post $post): bool
+    {
+        return $user->id === $post->user_id;
+    }
+
+    public function delete(User $user, Post $post): bool
+    {
+        return $user->id === $post->user_id;
+    }
+
+    // Before/After hooks
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->is_admin) {
+            return true; // Admin can do anything
+        }
+        return null; // Fall through to policy
+    }
 }
 ```
 
-### Return Response for Richer Feedback
+### Registering Policies
 
 ```php
-public function update(User $user, Post $post): Response
+// In AuthServiceProvider
+protected $policies = [
+    Post::class => PostPolicy::class,
+];
+```
+
+### Using Policies
+
+```php
+// Direct call
+$policy = new PostPolicy();
+$authorized = $policy->update(auth()->user(), $post);
+
+// Via user
+if (auth()->user()->can('update', $post)) {
+    // Authorized
+}
+
+if (auth()->user()->cannot('delete', $post)) {
+    // Not authorized
+}
+
+// In views
+@can('update', $post)
+    <p>You can update this post</p>
+@endcan
+
+@cannot('delete', $post)
+    <p>You cannot delete this post</p>
+@endcannot
+```
+
+## Authorization in Controllers
+
+```php
+namespace App\Http\Controllers;
+
+use App\Models\Post;
+
+class PostController extends Controller
 {
-    return $user->id === $post->user_id
-        ? Response::allow()
-        : Response::deny('You do not own this post.', 403);
+    public function update(Post $post)
+    {
+        $this->authorize('update', $post);
+        
+        // Update post
+    }
+
+    // With implicit policy methods
+    public function show(Post $post)
+    {
+        $this->authorize('view', $post);
+        return view('posts.show', compact('post'));
+    }
+
+    // Resource authorization
+    public function create()
+    {
+        $this->authorize('create', Post::class);
+    }
 }
 ```
 
-### Before Hook
+## Authorization in Routes
 
 ```php
-// Skip authorization for admins
-public function before(User $user, string $ability): bool|null
+Route::put('/posts/{post}', [PostController::class, 'update'])
+    ->middleware('can:update,post');
+
+Route::post('/posts', [PostController::class, 'store'])
+    ->middleware('can:create,App\Models\Post');
+```
+
+## Model Policies
+
+```php
+// Implicit policy binding
+Route::put('/posts/{post}', [PostController::class, 'update'])
+    ->can('update', 'post');
+
+// Direct policy
+Route::put('/posts/{post}', [PostController::class, 'update'])
+    ->middleware('can:update,post');
+```
+
+## Authorizing Actions
+
+```php
+// Authorize or throw
+$this->authorize('update', $post);
+
+// With custom response
+if (! Gate::allows('update-post', $post)) {
+    abort(403);
+}
+
+// In middleware
+public function handle($request, Closure $next)
 {
-    if ($user->is_admin) return true;
-    return null;                           // defer to specific method
+    Gate::authorize('admin-area');
+    return $next($request);
 }
 ```
 
-## Register Policy
-
-Auto-discovered in L9+ if models match, or register in AppServiceProvider::boot:
+## Guest User Authorization
 
 ```php
-Gate::policy(Post::class, PostPolicy::class);
+// Allow guests
+Gate::define('view-post', function (?User $user) {
+    return true; // Null when guest
+});
+
+// Policy
+public function view(?User $user, Post $post): bool
+{
+    return $post->is_published;
+}
 ```
-
-## Blade
-
-```blade
-@can('update', $post) ... @endcan
-@cannot('update', $post) ... @endcannot
-```
-
----
-
-**See Also:** [[authentication-sanctum]] | [[gates]]
