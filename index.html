@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laravel 13 Cheat Sheet - Organized Reference</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -214,22 +216,83 @@
             background: var(--bg);
             padding: 2px 6px;
             border-radius: 3px;
-            font-family: 'Monaco', 'Menlo', monospace;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
             font-size: 0.9em;
         }
 
         .file-view pre {
-            background: var(--bg);
-            padding: 15px;
-            border-radius: 6px;
+            background: #282c34;
+            padding: 1rem;
+            border-radius: 8px;
             overflow-x: auto;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
             border: 1px solid var(--border);
+            position: relative;
         }
 
         .file-view pre code {
             padding: 0;
             background: none;
+            color: #abb2bf;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .code-label {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .markdown-content h1,
+        .markdown-content h2,
+        .markdown-content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .markdown-content h1 {
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .markdown-content h2 {
+            font-size: 1.5rem;
+        }
+
+        .markdown-content h3 {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .markdown-content ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .markdown-content li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .markdown-content p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .markdown-content strong {
+            font-weight: 600;
+            color: var(--primary);
         }
 
         .back-btn {
@@ -572,18 +635,43 @@
             },
 
             markdownToHtml(md) {
-                let html = md
-                    .replace(/^### (.*?)$/gm, '<h3>$1</h3>')
+                let html = md;
+
+                // Process code blocks with language specification first
+                html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+                    const language = lang || 'plaintext';
+                    const trimmedCode = code.trim();
+                    const highlighted = hljs.highlight(trimmedCode, { language }).value;
+                    const langLabel = language !== 'plaintext' ? `<div class="code-label">${language}</div>` : '';
+                    return `${langLabel}<pre><code class="language-${language} hljs">${highlighted}</code></pre>`;
+                });
+
+                // Process inline code
+                html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+                // Process headings
+                html = html.replace(/^### (.*?)$/gm, '<h3>$1</h3>')
                     .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
-                    .replace(/^# (.*?)$/gm, '<h1>$1</h1>')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    .replace(/`(.*?)`/g, '<code>$1</code>')
-                    .replace(/```[\s\S]*?```/g, match => `<pre><code>${match.slice(3, -3)}</code></pre>`)
-                    .replace(/^\- (.*?)$/gm, '<li>$1</li>')
-                    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
-                    .replace(/\n\n/g, '</p><p>')
-                    .replace(/^/gm, '<p>');
+                    .replace(/^# (.*?)$/gm, '<h1>$1</h1>');
+
+                // Process bold and italic
+                html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+                // Process lists
+                html = html.replace(/^\- (.*?)$/gm, '<li>$1</li>')
+                    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+
+                // Process paragraphs
+                html = html.split('\n\n')
+                    .map(para => {
+                        if (para.trim().startsWith('<h') || para.trim().startsWith('<ul') ||
+                            para.trim().startsWith('<pre') || para.trim().startsWith('<div class="code-label"')) {
+                            return para;
+                        }
+                        return para.trim() ? `<p>${para.trim()}</p>` : '';
+                    })
+                    .join('');
 
                 return `<div class="markdown-content">${html}</div>`;
             },
