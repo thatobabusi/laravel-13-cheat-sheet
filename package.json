@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "npm run lint:html && npm run lint:css && npm run lint:js",
     "lint:html": "htmlhint index.html",
-    "lint:css": "stylelint 'assets/**/*.css'",
+    "lint:css": "stylelint assets/**/*.css",
     "lint:js": "eslint assets/scripts.js",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",

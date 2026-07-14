@@ -146,7 +146,7 @@ const app = {
     renderSidebar() {
         const sidebar = document.getElementById('sidebarContent');
         sidebar.innerHTML = '';
-        Object.entries(this.categories).forEach(([key, cat]) => {
+        Object.entries(this.categories).forEach(([_key, cat]) => {
             const section = document.createElement('div');
             section.className = 'sidebar-section collapsed';
 
@@ -209,7 +209,9 @@ const app = {
     },
 
     showHome(e) {
-        if (e) e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         document.getElementById('searchInput').value = '';
         this.renderHome();
     },
@@ -336,7 +338,7 @@ const app = {
             }
         });
 
-        html = html.replace(/^\- (.*?)$/gm, '<li>$1</li>')
+        html = html.replace(/^- (.*?)$/gm, '<li>$1</li>')
             .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
 
         html = html.split('\n\n')
