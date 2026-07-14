@@ -127,6 +127,57 @@ const app = {
                     { name: 'task-scheduling', path: 'docs/cheatsheet/10-advanced/task-scheduling.md' },
                     { name: 'testing', path: 'docs/cheatsheet/10-advanced/testing.md' }
                 ]
+            },
+            '11-performance': {
+                title: '⚡ Performance',
+                files: [
+                    { name: 'query-optimization', path: 'docs/cheatsheet/11-performance/query-optimization.md' },
+                    { name: 'caching-strategies', path: 'docs/cheatsheet/11-performance/caching-strategies.md' }
+                ]
+            },
+            '12-security': {
+                title: '🔒 Security',
+                files: [
+                    { name: 'csrf-xss-prevention', path: 'docs/cheatsheet/12-security/csrf-xss-prevention.md' },
+                    { name: 'api-authentication', path: 'docs/cheatsheet/12-security/api-authentication.md' }
+                ]
+            },
+            '13-testing': {
+                title: '✔️ Testing',
+                files: [
+                    { name: 'unit-feature-testing', path: 'docs/cheatsheet/13-testing/unit-feature-testing.md' }
+                ]
+            },
+            '14-realtime': {
+                title: '📡 Real-time',
+                files: [
+                    { name: 'queues-jobs', path: 'docs/cheatsheet/14-realtime/queues-jobs.md' },
+                    { name: 'event-broadcasting', path: 'docs/cheatsheet/14-realtime/event-broadcasting.md' }
+                ]
+            },
+            '15-apis': {
+                title: '🔌 APIs',
+                files: [
+                    { name: 'rest-api-design', path: 'docs/cheatsheet/15-apis/rest-api-design.md' }
+                ]
+            },
+            '16-deployment': {
+                title: '🚀 Deployment',
+                files: [
+                    { name: 'environment-config', path: 'docs/cheatsheet/16-deployment/environment-config.md' }
+                ]
+            },
+            '17-debugging': {
+                title: '🐛 Debugging',
+                files: [
+                    { name: 'debugging-monitoring', path: 'docs/cheatsheet/17-debugging/debugging-monitoring.md' }
+                ]
+            },
+            '18-patterns': {
+                title: '🎨 Design Patterns',
+                files: [
+                    { name: 'design-patterns', path: 'docs/cheatsheet/18-patterns/design-patterns.md' }
+                ]
             }
         };
 
