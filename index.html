@@ -56,7 +56,7 @@
         header {
             background: var(--bg);
             border-bottom: 1px solid var(--border);
-            sticky: top;
+            position: sticky;
             top: 0;
             z-index: 100;
             backdrop-filter: blur(10px);
@@ -868,11 +868,37 @@
             markdownToHtml(md) {
                 let html = md;
 
+                // Map of language aliases
+                const languageAliases = {
+                    'blade': 'html',
+                    'html': 'html',
+                    'php': 'php',
+                    'js': 'javascript',
+                    'ts': 'typescript',
+                    'py': 'python',
+                    'sh': 'bash',
+                    'sql': 'sql',
+                    'json': 'json',
+                    'xml': 'xml',
+                    'yaml': 'yaml',
+                    'yml': 'yaml',
+                    'css': 'css'
+                };
+
                 // Process code blocks with language specification
                 html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
                     const language = lang || 'plaintext';
+                    const mappedLang = languageAliases[language.toLowerCase()] || language;
                     const trimmedCode = code.trim();
-                    const highlighted = hljs.highlight(trimmedCode, { language }).value;
+
+                    let highlighted = trimmedCode;
+                    try {
+                        highlighted = hljs.highlight(trimmedCode, { language: mappedLang }).value;
+                    } catch (e) {
+                        // If highlighting fails, use the raw code
+                        highlighted = trimmedCode;
+                    }
+
                     const langLabel = language !== 'plaintext' ? `<div class="code-label">${language}</div>` : '';
                     return `<div class="code-block"><div class="code-block-header">${langLabel}</div><pre><code class="hljs language-${language}">${highlighted}</code></pre></div>`;
                 });
