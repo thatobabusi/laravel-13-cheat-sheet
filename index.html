@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laravel 13 Cheat Sheet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css" id="hljs-light">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" id="hljs-dark" disabled>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" id="hljs-dark">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <style>
         * {
@@ -16,30 +16,28 @@
 
         :root {
             --primary: #ff2d20;
-            --primary-hover: #eb6f34;
+            --primary-hover: #e62416;
 
-            /* Light mode */
-            --bg: #ffffff;
-            --bg-secondary: #f8fafc;
-            --text: #1f2937;
-            --text-secondary: #6b7280;
-            --border: #e5e7eb;
-            --border-light: #f3f4f6;
-            --code-bg: #f9fafb;
-
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-
-        [data-theme="dark"] {
+            /* Dark mode (default) */
             --bg: #0f172a;
             --bg-secondary: #1e293b;
             --text: #f1f5f9;
             --text-secondary: #cbd5e1;
             --border: #334155;
-            --border-light: #1e293b;
             --code-bg: #1e293b;
+
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        [data-theme="light"] {
+            --bg: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text: #1f2937;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+            --code-bg: #f9fafb;
         }
 
         html {
@@ -60,36 +58,55 @@
             top: 0;
             z-index: 100;
             backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.95);
-        }
-
-        [data-theme="dark"] header {
-            background-color: rgba(15, 23, 42, 0.95);
         }
 
         .header-content {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 1rem 1.5rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 2rem;
         }
 
         .header-brand {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            font-size: 1.5rem;
+            gap: 0.75rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            color: var(--text);
+            color: var(--primary);
             text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .header-brand:hover {
+            color: var(--primary-hover);
         }
 
         .header-controls {
             display: flex;
             align-items: center;
             gap: 1rem;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg-secondary);
+            color: var(--text);
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 45, 32, 0.15);
         }
 
         .theme-toggle {
@@ -104,34 +121,15 @@
         }
 
         .theme-toggle:hover {
-            background: var(--border-light);
-        }
-
-        .search-input {
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            background: var(--code-bg);
-            color: var(--text);
-            width: 250px;
-            transition: all 0.2s;
-        }
-
-        .search-input::placeholder {
-            color: var(--text-secondary);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 45, 32, 0.1);
+            background: var(--border);
         }
 
         /* Layout */
         .layout {
             display: grid;
-            grid-template-columns: 280px 1fr;
-            max-width: 1400px;
+            grid-template-columns: 280px 1fr 300px;
+            gap: 0;
+            max-width: 1600px;
             margin: 0 auto;
             min-height: calc(100vh - 60px);
         }
@@ -140,7 +138,7 @@
         .sidebar {
             background: var(--bg-secondary);
             border-right: 1px solid var(--border);
-            padding: 2rem 0;
+            padding: 2rem 1.5rem;
             max-height: calc(100vh - 60px);
             overflow-y: auto;
             position: sticky;
@@ -149,16 +147,15 @@
 
         .sidebar-section {
             margin-bottom: 2rem;
-            padding: 0 1rem;
         }
 
         .sidebar-title {
-            font-size: 0.875rem;
-            font-weight: 600;
+            font-size: 0.75rem;
+            font-weight: 700;
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            padding: 0.5rem 1rem;
+            padding: 0 1rem 0.75rem 0;
             margin-bottom: 0.5rem;
         }
 
@@ -169,14 +166,15 @@
             text-decoration: none;
             border-radius: 6px;
             transition: all 0.2s;
-            cursor: pointer;
             border-left: 3px solid transparent;
             margin-bottom: 0.25rem;
+            font-size: 0.95rem;
         }
 
         .sidebar-link:hover {
-            background: var(--border-light);
+            background: var(--border);
             border-left-color: var(--primary);
+            color: var(--primary);
         }
 
         .sidebar-link.active {
@@ -189,30 +187,15 @@
         /* Main Content */
         .main {
             padding: 3rem 2rem;
-        }
-
-        .breadcrumb {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-
-        .breadcrumb a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
+            overflow-y: auto;
         }
 
         .page-title {
-            font-size: 2.5rem;
+            font-size: 2.25rem;
             font-weight: 700;
             margin-bottom: 1rem;
             color: var(--text);
+            letter-spacing: -0.02em;
         }
 
         .page-description {
@@ -224,7 +207,7 @@
 
         /* Content */
         .content {
-            max-width: 800px;
+            max-width: 100%;
         }
 
         .content h1 {
@@ -233,8 +216,9 @@
             margin-top: 2.5rem;
             margin-bottom: 1rem;
             color: var(--text);
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
         }
 
         .content h1:first-child {
@@ -249,6 +233,7 @@
             margin-top: 2rem;
             margin-bottom: 1rem;
             color: var(--text);
+            letter-spacing: -0.01em;
         }
 
         .content h3 {
@@ -259,21 +244,13 @@
             color: var(--primary);
         }
 
-        .content h4, .content h5, .content h6 {
-            font-weight: 600;
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-            color: var(--text);
-        }
-
         .content p {
             margin-bottom: 1.25rem;
             color: var(--text);
             line-height: 1.8;
         }
 
-        .content ul,
-        .content ol {
+        .content ul, .content ol {
             margin-left: 1.5rem;
             margin-bottom: 1.5rem;
         }
@@ -281,16 +258,7 @@
         .content li {
             margin-bottom: 0.5rem;
             color: var(--text);
-        }
-
-        .content strong {
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .content em {
-            font-style: italic;
-            color: var(--text);
+            line-height: 1.8;
         }
 
         .content code {
@@ -298,7 +266,7 @@
             color: var(--primary);
             padding: 0.2em 0.4em;
             border-radius: 3px;
-            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
             font-size: 0.9em;
         }
 
@@ -311,7 +279,7 @@
         }
 
         .code-block-header {
-            background: var(--border-light);
+            background: var(--border);
             padding: 0.75rem 1rem;
             display: flex;
             justify-content: space-between;
@@ -346,60 +314,60 @@
             line-height: 1.6;
         }
 
-        /* Light mode code highlighting */
-        [data-theme="light"] .code-block pre {
-            color: #383a42;
+        /* Right Sidebar - TOC */
+        .toc-sidebar {
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border);
+            padding: 2rem 1.5rem;
+            max-height: calc(100vh - 60px);
+            overflow-y: auto;
+            position: sticky;
+            top: 60px;
+            font-size: 0.9rem;
         }
 
-        /* Dark mode code highlighting */
-        [data-theme="dark"] .code-block pre {
-            color: #abb2bf;
-        }
-
-        .copy-button {
-            background: var(--border-light);
-            border: none;
-            padding: 0.5rem 0.75rem;
-            border-radius: 4px;
-            cursor: pointer;
+        .toc-title {
+            font-size: 0.75rem;
+            font-weight: 700;
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-link {
+            color: var(--text-secondary);
+            text-decoration: none;
             transition: all 0.2s;
+            display: block;
+            padding: 0.25rem 0;
+            border-left: 2px solid transparent;
+            padding-left: 0.75rem;
         }
 
-        .copy-button:hover {
-            background: var(--border);
-            color: var(--text);
+        .toc-link:hover {
+            color: var(--primary);
         }
 
-        /* Alert/Note blocks */
-        .alert {
-            padding: 1rem;
-            border-radius: 6px;
-            margin: 1.5rem 0;
-            border-left: 4px solid;
+        .toc-link.active {
+            color: var(--primary);
+            border-left-color: var(--primary);
         }
 
-        .alert-info {
-            background: rgba(59, 130, 246, 0.1);
-            border-color: #3b82f6;
-            color: #1e40af;
+        .toc-item.level-2 .toc-link {
+            padding-left: 1.5rem;
         }
 
-        [data-theme="dark"] .alert-info {
-            background: rgba(59, 130, 246, 0.15);
-            color: #93c5fd;
-        }
-
-        .alert-warning {
-            background: rgba(245, 158, 11, 0.1);
-            border-color: #f59e0b;
-            color: #b45309;
-        }
-
-        [data-theme="dark"] .alert-warning {
-            background: rgba(245, 158, 11, 0.15);
-            color: #fcd34d;
+        .toc-item.level-3 .toc-link {
+            padding-left: 2.25rem;
         }
 
         /* Views */
@@ -445,6 +413,7 @@
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: var(--text);
+            font-size: 1.1rem;
         }
 
         .category-card-count {
@@ -452,7 +421,6 @@
             color: var(--text-secondary);
         }
 
-        /* Back button */
         .back-button {
             display: inline-flex;
             align-items: center;
@@ -466,54 +434,31 @@
             font-weight: 500;
             transition: all 0.2s;
             margin-bottom: 2rem;
+            font-size: 0.95rem;
         }
 
         .back-button:hover {
             background: var(--primary-hover);
         }
 
-        /* Search results */
-        .search-results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .search-result-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.25rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .search-result-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 2px 8px rgba(255, 45, 32, 0.1);
-        }
-
-        .search-result-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text);
-        }
-
-        .search-result-category {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-
         /* Responsive */
+        @media (max-width: 1200px) {
+            .layout {
+                grid-template-columns: 240px 1fr;
+            }
+
+            .toc-sidebar {
+                display: none;
+            }
+        }
+
         @media (max-width: 768px) {
             .layout {
                 grid-template-columns: 1fr;
             }
 
             .sidebar {
+                position: static;
                 max-height: none;
                 border-right: none;
                 border-bottom: 1px solid var(--border);
@@ -532,13 +477,17 @@
                 font-size: 1.75rem;
             }
 
-            .search-input {
-                width: auto;
+            .categories-grid {
+                grid-template-columns: 1fr;
             }
 
-            .categories-grid,
-            .search-results-grid {
-                grid-template-columns: 1fr;
+            .header-controls {
+                max-width: none;
+                flex: 0;
+            }
+
+            .search-input {
+                display: none;
             }
         }
 
@@ -567,10 +516,10 @@
     <header>
         <div class="header-content">
             <a href="#" class="header-brand" onclick="app.showHome(event)">
-                📚 Laravel 13 Cheat Sheet
+                Laravel 13 Cheat Sheet
             </a>
             <div class="header-controls">
-                <input type="text" class="search-input" id="searchInput" placeholder="Search docs..." autofocus>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search documentation..." autofocus>
                 <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
             </div>
         </div>
@@ -578,7 +527,7 @@
 
     <!-- Layout -->
     <div class="layout">
-        <!-- Sidebar -->
+        <!-- Left Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div id="sidebarContent"></div>
         </aside>
@@ -588,7 +537,7 @@
             <!-- Home View -->
             <div id="homeView" class="view active">
                 <div class="page-title">Laravel 13 Cheat Sheet</div>
-                <p class="page-description">Comprehensive reference organized by category • PHP 8.2+ • Quick lookup</p>
+                <p class="page-description">Comprehensive reference • PHP 8.2+ • Code examples • Quick lookup</p>
                 <div class="categories-grid" id="homeGrid"></div>
             </div>
 
@@ -609,7 +558,7 @@
             <div id="searchView" class="view">
                 <button class="back-button" onclick="app.showHome(event)">← Back</button>
                 <div class="page-title">Search Results</div>
-                <div class="search-results-grid" id="searchResults"></div>
+                <div class="categories-grid" id="searchResults"></div>
             </div>
 
             <!-- Empty State -->
@@ -620,13 +569,19 @@
                 </div>
             </div>
         </main>
+
+        <!-- Right Sidebar - TOC -->
+        <aside class="toc-sidebar" id="tocSidebar">
+            <div class="toc-title">On this page</div>
+            <ul class="toc-list" id="tocList"></ul>
+        </aside>
     </div>
 
     <script>
         const app = {
             files: [],
             categories: {},
-            currentTheme: localStorage.getItem('theme') || 'light',
+            currentTheme: localStorage.getItem('theme') || 'dark',
 
             async init() {
                 this.setupTheme();
@@ -644,23 +599,23 @@
 
             updateThemeIcon() {
                 const toggle = document.getElementById('themeToggle');
-                toggle.textContent = this.currentTheme === 'light' ? '🌙' : '☀️';
+                toggle.textContent = this.currentTheme === 'dark' ? '☀️' : '🌙';
             },
 
             updateHighlightTheme() {
                 const lightStyle = document.getElementById('hljs-light');
                 const darkStyle = document.getElementById('hljs-dark');
-                if (this.currentTheme === 'light') {
-                    lightStyle.disabled = false;
-                    darkStyle.disabled = true;
-                } else {
+                if (this.currentTheme === 'dark') {
                     lightStyle.disabled = true;
                     darkStyle.disabled = false;
+                } else {
+                    lightStyle.disabled = false;
+                    darkStyle.disabled = true;
                 }
             },
 
             toggleTheme() {
-                this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+                this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
                 localStorage.setItem('theme', this.currentTheme);
                 this.setupTheme();
             },
@@ -808,6 +763,7 @@
                     grid.appendChild(card);
                 });
                 this.showView('homeView');
+                this.updateTOC([]);
             },
 
             showHome(e) {
@@ -835,6 +791,7 @@
                     grid.appendChild(card);
                 });
                 this.showView('categoryView');
+                this.updateTOC([]);
             },
 
             async loadFile(path, title) {
@@ -847,28 +804,31 @@
                     if (!content.trim()) {
                         throw new Error('File is empty');
                     }
-                    content = this.markdownToHtml(content);
-                    document.getElementById('fileContent').innerHTML = `<h1>${title}</h1>${content}`;
+
+                    const { html, headings } = this.markdownToHtml(content);
+                    document.getElementById('fileContent').innerHTML = `<h1>${title}</h1>${html}`;
                     this.showView('fileView');
+                    this.updateTOC(headings);
                     setTimeout(() => hljs.highlightAll(), 100);
                 } catch (error) {
                     console.error('Load file error:', error);
                     const fileContent = document.getElementById('fileContent');
                     fileContent.innerHTML = `
                         <h1>${title}</h1>
-                        <div class="alert alert-warning" style="margin-top: 1rem;">
+                        <div style="background: rgba(255, 45, 32, 0.1); border-left: 4px solid #ff2d20; padding: 1rem; border-radius: 6px; margin-top: 1rem;">
                             <strong>Error loading file:</strong> ${error.message}
-                            <br><small style="margin-top: 0.5rem; display: block;">Path: ${path}</small>
+                            <br><small style="margin-top: 0.5rem; display: block; color: var(--text-secondary);">Path: ${path}</small>
                         </div>
                     `;
                     this.showView('fileView');
+                    this.updateTOC([]);
                 }
             },
 
             markdownToHtml(md) {
                 let html = md;
+                const headings = [];
 
-                // Map of language aliases
                 const languageAliases = {
                     'blade': 'html',
                     'html': 'html',
@@ -885,7 +845,7 @@
                     'css': 'css'
                 };
 
-                // Process code blocks with language specification
+                // Process code blocks
                 html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
                     const language = lang || 'plaintext';
                     const mappedLang = languageAliases[language.toLowerCase()] || language;
@@ -895,7 +855,6 @@
                     try {
                         highlighted = hljs.highlight(trimmedCode, { language: mappedLang }).value;
                     } catch (e) {
-                        // If highlighting fails, use the raw code
                         highlighted = trimmedCode;
                     }
 
@@ -903,23 +862,23 @@
                     return `<div class="code-block"><div class="code-block-header">${langLabel}</div><pre><code class="hljs language-${language}">${highlighted}</code></pre></div>`;
                 });
 
-                // Process inline code
                 html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
 
-                // Process headings
-                html = html.replace(/^### (.*?)$/gm, '<h3>$1</h3>')
-                    .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
-                    .replace(/^# (.*?)$/gm, '<h1>$1</h1>');
+                // Collect headings for TOC
+                html = html.replace(/^(#{1,6}) (.*?)$/gm, (match, hashes, title) => {
+                    const level = hashes.length;
+                    const id = title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
+                    headings.push({ level, title, id });
+                    const tag = `h${level}`;
+                    return `<${tag} id="${id}">${title}</${tag}>`;
+                });
 
-                // Process bold and italic
                 html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\*(.*?)\*/g, '<em>$1</em>');
 
-                // Process lists
                 html = html.replace(/^\- (.*?)$/gm, '<li>$1</li>')
                     .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
 
-                // Process paragraphs
                 html = html.split('\n\n')
                     .map(para => {
                         if (para.trim().startsWith('<h') || para.trim().startsWith('<ul') ||
@@ -930,7 +889,28 @@
                     })
                     .join('');
 
-                return html;
+                return { html, headings };
+            },
+
+            updateTOC(headings) {
+                const tocList = document.getElementById('tocList');
+                tocList.innerHTML = '';
+
+                if (headings.length === 0) {
+                    tocList.innerHTML = '<li class="toc-item"><em style="color: var(--text-secondary); font-size: 0.9rem;">No headings</em></li>';
+                    return;
+                }
+
+                headings.forEach(heading => {
+                    const li = document.createElement('li');
+                    li.className = `toc-item level-${heading.level}`;
+                    const link = document.createElement('a');
+                    link.href = `#${heading.id}`;
+                    link.className = 'toc-link';
+                    link.textContent = heading.title;
+                    li.appendChild(link);
+                    tocList.appendChild(li);
+                });
             },
 
             search() {
@@ -954,10 +934,10 @@
                 resultsContainer.innerHTML = '';
                 results.forEach(file => {
                     const card = document.createElement('a');
-                    card.className = 'search-result-card';
+                    card.className = 'category-card';
                     card.innerHTML = `
-                        <div class="search-result-title">${file.displayName}</div>
-                        <div class="search-result-category">${file.category}</div>
+                        <div class="category-card-title">${file.displayName}</div>
+                        <div class="category-card-count">${file.category}</div>
                     `;
                     card.onclick = (e) => {
                         e.preventDefault();
@@ -967,6 +947,7 @@
                 });
 
                 this.showView('searchView');
+                this.updateTOC([]);
             },
 
             showView(viewId) {
