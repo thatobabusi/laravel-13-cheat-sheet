@@ -777,12 +777,14 @@
                     section.innerHTML = `<div class="sidebar-title">${cat.title}</div>`;
                     cat.files.forEach(file => {
                         const link = document.createElement('a');
+                        link.href = '#';
                         link.className = 'sidebar-link';
                         link.textContent = file.name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-                        link.onclick = (e) => {
+                        link.addEventListener('click', (e) => {
                             e.preventDefault();
+                            e.stopPropagation();
                             this.loadFile(file.path, file.displayName);
-                        };
+                        });
                         section.appendChild(link);
                     });
                     sidebar.appendChild(section);
@@ -838,14 +840,28 @@
             async loadFile(path, title) {
                 try {
                     const response = await fetch(path);
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    if (!response.ok) {
+                        throw new Error(`File not found (HTTP ${response.status}). Path: ${path}`);
+                    }
                     let content = await response.text();
+                    if (!content.trim()) {
+                        throw new Error('File is empty');
+                    }
                     content = this.markdownToHtml(content);
                     document.getElementById('fileContent').innerHTML = `<h1>${title}</h1>${content}`;
                     this.showView('fileView');
-                    hljs.highlightAll();
+                    setTimeout(() => hljs.highlightAll(), 100);
                 } catch (error) {
-                    alert(`Failed to load file: ${error.message}`);
+                    console.error('Load file error:', error);
+                    const fileContent = document.getElementById('fileContent');
+                    fileContent.innerHTML = `
+                        <h1>${title}</h1>
+                        <div class="alert alert-warning" style="margin-top: 1rem;">
+                            <strong>Error loading file:</strong> ${error.message}
+                            <br><small style="margin-top: 0.5rem; display: block;">Path: ${path}</small>
+                        </div>
+                    `;
+                    this.showView('fileView');
                 }
             },
 
