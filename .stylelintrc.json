@@ -1,16 +1,24 @@
-{
-  "extends": "stylelint-config-standard",
-  "rules": {
-    "color-no-invalid-hex": true,
-    "font-family-no-missing-generic-family-keyword": true,
-    "function-calc-no-unspaced-operator": true,
-    "property-no-unknown": true,
-    "selector-pseudo-element-no-unknown": true,
-    "selector-type-no-unknown": true,
-    "media-query-no-invalid": true,
-    "at-rule-no-unknown": true,
-    "indentation": 4,
-    "no-descending-specificity": true,
-    "declaration-block-no-duplicate-properties": true
-  }
+﻿{
+    "rules":  {
+                  "property-no-unknown":  true,
+                  "color-no-invalid-hex":  true,
+                  "declaration-block-no-duplicate-properties":  true,
+                  "function-calc-no-unspaced-operator":  true,
+                  "color-function-notation":  "legacy",
+                  "media-query-no-invalid":  true,
+                  "indentation":  [
+                                      4
+                                  ],
+                  "color-hex-length":  "long",
+                  "font-family-name-quotes":  "always-unless-keyword",
+                  "no-descending-specificity":  null,
+                  "at-rule-no-unknown":  true,
+                  "font-family-no-missing-generic-family-keyword":  true,
+                  "selector-pseudo-element-no-unknown":  true,
+                  "alpha-value-notation":  "number",
+                  "media-feature-range-notation":  "prefix",
+                  "keyframes-name-pattern":  "^[a-z]",
+                  "selector-type-no-unknown":  true
+              },
+    "extends":  "stylelint-config-standard"
 }
