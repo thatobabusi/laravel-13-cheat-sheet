@@ -1112,6 +1112,24 @@
                 html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\*(.*?)\*/g, '<em>$1</em>');
 
+                // Handle internal wiki-style links [[link-text]]
+                html = html.replace(/\[\[([^\]]+)\]\]/g, (match, linkText) => {
+                    const displayText = linkText.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    const fileKey = linkText.toLowerCase();
+
+                    // Find matching file
+                    const matchingFile = this.files.find(f =>
+                        f.name.toLowerCase() === fileKey ||
+                        f.displayName.toLowerCase() === displayText.toLowerCase()
+                    );
+
+                    if (matchingFile) {
+                        return `<a href="#" onclick="app.loadFile('${matchingFile.path}', '${matchingFile.displayName}'); return false;" style="color: var(--primary); text-decoration: none; border-bottom: 1px solid var(--primary);">${displayText}</a>`;
+                    } else {
+                        return `<span style="color: var(--text-secondary); opacity: 0.6;" title="Link not found: ${displayText}">${displayText}</span>`;
+                    }
+                });
+
                 html = html.replace(/^\- (.*?)$/gm, '<li>$1</li>')
                     .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
 
