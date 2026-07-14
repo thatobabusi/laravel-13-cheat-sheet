@@ -1,4 +1,4 @@
-﻿{
+{
     "rules":  {
                   "property-no-unknown":  true,
                   "color-no-invalid-hex":  true,
@@ -6,9 +6,7 @@
                   "function-calc-no-unspaced-operator":  true,
                   "color-function-notation":  "legacy",
                   "media-query-no-invalid":  true,
-                  "indentation":  [
-                                      4
-                                  ],
+                  "indentation":  4,
                   "color-hex-length":  "long",
                   "font-family-name-quotes":  "always-unless-keyword",
                   "no-descending-specificity":  null,
