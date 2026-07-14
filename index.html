@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laravel 13 Cheat Sheet - Organized Reference</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <title>Laravel 13 Cheat Sheet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css" id="hljs-light">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" id="hljs-dark" disabled>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <style>
         * {
@@ -15,140 +16,400 @@
 
         :root {
             --primary: #ff2d20;
-            --primary-light: #eb6f34;
-            --primary-dark: #f97316;
-            --bg: #fff;
-            --bg-alt: #f9f9f9;
-            --text: #333;
-            --text-light: #666;
-            --border: #e0e0e0;
-            --success: #22c55e;
+            --primary-hover: #eb6f34;
+
+            /* Light mode */
+            --bg: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text: #1f2937;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+            --border-light: #f3f4f6;
+            --code-bg: #f9fafb;
+
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
         }
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #1a1a1a;
-                --bg-alt: #2d2d2d;
-                --text: #e0e0e0;
-                --text-light: #999;
-                --border: #404040;
-            }
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --bg-secondary: #1e293b;
+            --text: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #334155;
+            --border-light: #1e293b;
+            --code-bg: #1e293b;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: var(--text);
             background: var(--bg);
-            transition: background 0.3s, color 0.3s;
+            color: var(--text);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        .container {
+        /* Header */
+        header {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            sticky: top;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        [data-theme="dark"] header {
+            background-color: rgba(15, 23, 42, 0.95);
+        }
+
+        .header-content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            margin-bottom: 3rem;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 2rem;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .header-subtitle {
-            font-size: 1rem;
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-        }
-
-        .search-box {
+            padding: 1rem 1.5rem;
             display: flex;
-            gap: 10px;
-            margin-bottom: 1.5rem;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        input[type="text"] {
-            flex: 1;
-            padding: 12px 16px;
-            font-size: 16px;
-            border: 2px solid var(--border);
-            border-radius: 6px;
-            background: var(--bg);
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
             color: var(--text);
-            transition: border-color 0.3s;
+            text-decoration: none;
         }
 
-        input[type="text"]:focus {
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--border-light);
+        }
+
+        .search-input {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--code-bg);
+            color: var(--text);
+            width: 250px;
+            transition: all 0.2s;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .search-input:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(255, 45, 32, 0.1);
         }
 
-        .main-content {
+        /* Layout */
+        .layout {
             display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 30px;
+            grid-template-columns: 280px 1fr;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - 60px);
         }
 
+        /* Sidebar */
         .sidebar {
-            position: sticky;
-            top: 20px;
-            max-height: calc(100vh - 40px);
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            padding: 2rem 0;
+            max-height: calc(100vh - 60px);
             overflow-y: auto;
+            position: sticky;
+            top: 60px;
         }
 
-        .category-list {
-            list-style: none;
+        .sidebar-section {
+            margin-bottom: 2rem;
+            padding: 0 1rem;
         }
 
-        .category-item {
+        .sidebar-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 1rem;
             margin-bottom: 0.5rem;
         }
 
-        .category-btn {
+        .sidebar-link {
             display: block;
-            width: 100%;
-            text-align: left;
-            padding: 10px 12px;
-            background: var(--bg-alt);
-            border: none;
-            border-left: 3px solid transparent;
-            border-radius: 4px;
-            cursor: pointer;
+            padding: 0.75rem 1rem;
             color: var(--text);
-            font-size: 14px;
+            text-decoration: none;
+            border-radius: 6px;
             transition: all 0.2s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            margin-bottom: 0.25rem;
         }
 
-        .category-btn:hover {
-            background: var(--border);
+        .sidebar-link:hover {
+            background: var(--border-light);
             border-left-color: var(--primary);
         }
 
-        .category-btn.active {
+        .sidebar-link.active {
+            background: rgba(255, 45, 32, 0.1);
+            color: var(--primary);
+            border-left-color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main {
+            padding: 3rem 2rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .page-description {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        /* Content */
+        .content {
+            max-width: 800px;
+        }
+
+        .content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .content h1:first-child {
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .content h4, .content h5, .content h6 {
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .content p {
+            margin-bottom: 1.25rem;
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        .content ul,
+        .content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .content li {
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .content strong {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .content em {
+            font-style: italic;
+            color: var(--text);
+        }
+
+        .content code {
+            background: var(--code-bg);
+            color: var(--primary);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        /* Code blocks */
+        .code-block {
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .code-block-header {
+            background: var(--border-light);
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-label {
             background: var(--primary);
             color: white;
-            border-left-color: var(--primary-dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        .content-area {
-            min-height: 400px;
+        .code-block pre {
+            background: var(--code-bg);
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 0;
         }
 
-        .content-view {
+        .code-block code {
+            background: none;
+            color: inherit;
+            padding: 0;
+            border-radius: 0;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        /* Light mode code highlighting */
+        [data-theme="light"] .code-block pre {
+            color: #383a42;
+        }
+
+        /* Dark mode code highlighting */
+        [data-theme="dark"] .code-block pre {
+            color: #abb2bf;
+        }
+
+        .copy-button {
+            background: var(--border-light);
+            border: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .copy-button:hover {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        /* Alert/Note blocks */
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+            color: #1e40af;
+        }
+
+        [data-theme="dark"] .alert-info {
+            background: rgba(59, 130, 246, 0.15);
+            color: #93c5fd;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: #f59e0b;
+            color: #b45309;
+        }
+
+        [data-theme="dark"] .alert-warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fcd34d;
+        }
+
+        /* Views */
+        .view {
             display: none;
         }
 
-        .content-view.active {
+        .view.active {
             display: block;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.2s ease;
         }
 
         @keyframes fadeIn {
@@ -156,227 +417,135 @@
             to { opacity: 1; }
         }
 
-        .section-title {
-            font-size: 1.8rem;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 1rem;
-        }
-
-        .section-grid {
+        .categories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
             margin-top: 2rem;
         }
 
-        .section-card {
-            padding: 20px;
-            background: var(--bg-alt);
+        .category-card {
+            background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: 8px;
+            padding: 1.5rem;
             cursor: pointer;
             transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
         }
 
-        .section-card:hover {
+        .category-card:hover {
             border-color: var(--primary);
             box-shadow: 0 4px 12px rgba(255, 45, 32, 0.15);
             transform: translateY(-2px);
         }
 
-        .section-card-title {
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 0.5rem;
-        }
-
-        .section-card-category {
-            font-size: 12px;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .file-view {
-            background: var(--bg-alt);
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        .file-view h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .file-view code {
-            background: var(--bg);
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
-            font-size: 0.9em;
-        }
-
-        .file-view pre {
-            background: #282c34;
-            padding: 1rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 1.5rem 0;
-            border: 1px solid var(--border);
-            position: relative;
-        }
-
-        .file-view pre code {
-            padding: 0;
-            background: none;
-            color: #abb2bf;
-            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
-            font-size: 0.95em;
-            line-height: 1.5;
-        }
-
-        .code-label {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
+        .category-card-title {
             font-weight: 600;
             margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .markdown-content h1,
-        .markdown-content h2,
-        .markdown-content h3 {
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
             color: var(--text);
         }
 
-        .markdown-content h1 {
-            font-size: 1.8rem;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 0.5rem;
+        .category-card-count {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
         }
 
-        .markdown-content h2 {
-            font-size: 1.5rem;
-        }
-
-        .markdown-content h3 {
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-
-        .markdown-content ul {
-            margin-left: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .markdown-content li {
-            margin-bottom: 0.5rem;
-            line-height: 1.6;
-        }
-
-        .markdown-content p {
-            margin-bottom: 1rem;
-            line-height: 1.7;
-        }
-
-        .markdown-content strong {
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            padding: 8px 12px;
+        /* Back button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s;
+            font-weight: 500;
+            transition: all 0.2s;
+            margin-bottom: 2rem;
         }
 
-        .back-btn:hover {
-            background: var(--primary-light);
+        .back-button:hover {
+            background: var(--primary-hover);
         }
 
-        .search-results {
+        /* Search results */
+        .search-results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
             margin-top: 2rem;
         }
 
-        .search-result {
-            padding: 15px;
-            background: var(--bg-alt);
+        .search-result-card {
+            background: var(--bg-secondary);
             border: 1px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
+            padding: 1.25rem;
             cursor: pointer;
             transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
         }
 
-        .search-result:hover {
+        .search-result-card:hover {
             border-color: var(--primary);
             box-shadow: 0 2px 8px rgba(255, 45, 32, 0.1);
         }
 
         .search-result-title {
             font-weight: 600;
-            color: var(--text);
             margin-bottom: 0.5rem;
+            color: var(--text);
         }
 
         .search-result-category {
-            font-size: 12px;
-            color: var(--text-light);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 3rem 2rem;
-            color: var(--text-light);
-        }
-
-        .empty-state-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
-            .main-content {
+            .layout {
                 grid-template-columns: 1fr;
             }
 
             .sidebar {
-                position: static;
-                max-height: auto;
-                margin-bottom: 2rem;
+                max-height: none;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                display: none;
             }
 
-            h1 {
-                font-size: 1.8rem;
+            .sidebar.open {
+                display: block;
             }
 
-            .section-grid {
+            .main {
+                padding: 1.5rem 1rem;
+            }
+
+            .page-title {
+                font-size: 1.75rem;
+            }
+
+            .search-input {
+                width: auto;
+            }
+
+            .categories-grid,
+            .search-results-grid {
                 grid-template-columns: 1fr;
             }
         }
 
+        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
+            height: 8px;
         }
 
         ::-webkit-scrollbar-track {
@@ -389,77 +558,114 @@
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-light);
+            background: var(--text-secondary);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📚 Laravel 13 Cheat Sheet</h1>
-            <p class="header-subtitle">Comprehensive reference organized by category • PHP 8.2+ • Quick lookup</p>
-
-            <div class="search-box">
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Search topics (e.g., routing, eloquent, testing)..."
-                    autofocus
-                >
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="#" class="header-brand" onclick="app.showHome(event)">
+                📚 Laravel 13 Cheat Sheet
+            </a>
+            <div class="header-controls">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search docs..." autofocus>
+                <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
             </div>
-        </header>
-
-        <div class="main-content">
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <ul class="category-list" id="categoryList"></ul>
-            </aside>
-
-            <!-- Content Area -->
-            <main class="content-area">
-                <!-- Categories View -->
-                <div id="categoriesView" class="content-view active">
-                    <div class="section-title">📖 Browse by Category</div>
-                    <div class="section-grid" id="categoriesGrid"></div>
-                </div>
-
-                <!-- File View -->
-                <div id="fileView" class="content-view">
-                    <button class="back-btn" onclick="app.showCategories()">← Back</button>
-                    <div class="file-view" id="fileContent"></div>
-                </div>
-
-                <!-- Search Results View -->
-                <div id="searchView" class="content-view">
-                    <button class="back-btn" onclick="app.showCategories()">← Back</button>
-                    <div class="section-title">🔍 Search Results</div>
-                    <div class="search-results" id="searchResults"></div>
-                </div>
-
-                <!-- Empty State -->
-                <div id="emptyState" class="content-view">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📝</div>
-                        <p>No files found. Try a different search.</p>
-                    </div>
-                </div>
-            </main>
         </div>
+    </header>
+
+    <!-- Layout -->
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div id="sidebarContent"></div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Home View -->
+            <div id="homeView" class="view active">
+                <div class="page-title">Laravel 13 Cheat Sheet</div>
+                <p class="page-description">Comprehensive reference organized by category • PHP 8.2+ • Quick lookup</p>
+                <div class="categories-grid" id="homeGrid"></div>
+            </div>
+
+            <!-- Category View -->
+            <div id="categoryView" class="view">
+                <button class="back-button" onclick="app.showHome(event)">← Back</button>
+                <div class="page-title" id="categoryTitle"></div>
+                <div class="categories-grid" id="categoryGrid"></div>
+            </div>
+
+            <!-- File View -->
+            <div id="fileView" class="view">
+                <button class="back-button" onclick="app.showHome(event)">← Back</button>
+                <div class="content" id="fileContent"></div>
+            </div>
+
+            <!-- Search View -->
+            <div id="searchView" class="view">
+                <button class="back-button" onclick="app.showHome(event)">← Back</button>
+                <div class="page-title">Search Results</div>
+                <div class="search-results-grid" id="searchResults"></div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyView" class="view">
+                <div style="text-align: center; padding: 3rem 1rem; color: var(--text-secondary);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
+                    <p>No results found. Try a different search.</p>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
         const app = {
             files: [],
             categories: {},
+            currentTheme: localStorage.getItem('theme') || 'light',
 
             async init() {
+                this.setupTheme();
                 await this.loadFileIndex();
-                this.renderCategories();
+                this.renderSidebar();
+                this.renderHome();
                 this.setupEventListeners();
             },
 
+            setupTheme() {
+                document.documentElement.setAttribute('data-theme', this.currentTheme);
+                this.updateThemeIcon();
+                this.updateHighlightTheme();
+            },
+
+            updateThemeIcon() {
+                const toggle = document.getElementById('themeToggle');
+                toggle.textContent = this.currentTheme === 'light' ? '🌙' : '☀️';
+            },
+
+            updateHighlightTheme() {
+                const lightStyle = document.getElementById('hljs-light');
+                const darkStyle = document.getElementById('hljs-dark');
+                if (this.currentTheme === 'light') {
+                    lightStyle.disabled = false;
+                    darkStyle.disabled = true;
+                } else {
+                    lightStyle.disabled = true;
+                    darkStyle.disabled = false;
+                }
+            },
+
+            toggleTheme() {
+                this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+                localStorage.setItem('theme', this.currentTheme);
+                this.setupTheme();
+            },
+
             async loadFileIndex() {
-                // Map of all files organized by category
                 this.categories = {
                     '01-core': {
                         title: '📌 Core Framework',
@@ -549,7 +755,6 @@
                     }
                 };
 
-                // Flatten for search
                 this.files = [];
                 Object.entries(this.categories).forEach(([key, cat]) => {
                     cat.files.forEach(file => {
@@ -563,72 +768,82 @@
                 });
             },
 
-            renderCategories() {
-                const grid = document.getElementById('categoriesGrid');
-                const sidebar = document.getElementById('categoryList');
-
-                grid.innerHTML = '';
+            renderSidebar() {
+                const sidebar = document.getElementById('sidebarContent');
                 sidebar.innerHTML = '';
-
                 Object.entries(this.categories).forEach(([key, cat]) => {
-                    // Sidebar
-                    const li = document.createElement('li');
-                    li.className = 'category-item';
-                    const btn = document.createElement('button');
-                    btn.className = 'category-btn';
-                    btn.textContent = cat.title;
-                    btn.onclick = () => this.showCategory(key);
-                    li.appendChild(btn);
-                    sidebar.appendChild(li);
-
-                    // Grid
-                    const card = document.createElement('div');
-                    card.className = 'section-card';
-                    card.innerHTML = `
-                        <div class="section-card-title">${cat.title}</div>
-                        <div class="section-card-category">${cat.files.length} sections</div>
-                    `;
-                    card.onclick = () => this.showCategory(key);
-                    grid.appendChild(card);
+                    const section = document.createElement('div');
+                    section.className = 'sidebar-section';
+                    section.innerHTML = `<div class="sidebar-title">${cat.title}</div>`;
+                    cat.files.forEach(file => {
+                        const link = document.createElement('a');
+                        link.className = 'sidebar-link';
+                        link.textContent = file.name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                        link.onclick = (e) => {
+                            e.preventDefault();
+                            this.loadFile(file.path, file.displayName);
+                        };
+                        section.appendChild(link);
+                    });
+                    sidebar.appendChild(section);
                 });
             },
 
-            async showCategory(categoryKey) {
-                const cat = this.categories[categoryKey];
-                const grid = document.getElementById('categoriesGrid');
-
+            renderHome() {
+                const grid = document.getElementById('homeGrid');
                 grid.innerHTML = '';
-                this.categories[categoryKey].files.forEach(file => {
-                    const card = document.createElement('div');
-                    card.className = 'section-card';
+                Object.entries(this.categories).forEach(([key, cat]) => {
+                    const card = document.createElement('a');
+                    card.className = 'category-card';
                     card.innerHTML = `
-                        <div class="section-card-title">${file.name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
-                        <div class="section-card-category">${cat.title}</div>
+                        <div class="category-card-title">${cat.title}</div>
+                        <div class="category-card-count">${cat.files.length} sections</div>
                     `;
-                    card.onclick = () => this.loadFile(file.path, file.displayName);
+                    card.onclick = (e) => {
+                        e.preventDefault();
+                        this.showCategory(key);
+                    };
                     grid.appendChild(card);
                 });
+                this.showView('homeView');
+            },
 
-                document.getElementById('categoriesView').classList.add('active');
-                document.querySelector('.section-title').textContent = `📖 ${cat.title}`;
+            showHome(e) {
+                if (e) e.preventDefault();
+                document.getElementById('searchInput').value = '';
+                this.renderHome();
+            },
+
+            showCategory(categoryKey) {
+                const cat = this.categories[categoryKey];
+                document.getElementById('categoryTitle').textContent = cat.title;
+                const grid = document.getElementById('categoryGrid');
+                grid.innerHTML = '';
+                cat.files.forEach(file => {
+                    const card = document.createElement('a');
+                    card.className = 'category-card';
+                    card.innerHTML = `
+                        <div class="category-card-title">${file.name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
+                        <div class="category-card-count">${cat.title}</div>
+                    `;
+                    card.onclick = (e) => {
+                        e.preventDefault();
+                        this.loadFile(file.path, file.displayName);
+                    };
+                    grid.appendChild(card);
+                });
+                this.showView('categoryView');
             },
 
             async loadFile(path, title) {
                 try {
                     const response = await fetch(path);
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
                     let content = await response.text();
-
-                    // Simple markdown to HTML conversion
                     content = this.markdownToHtml(content);
-
-                    document.getElementById('fileContent').innerHTML = `
-                        <h2>${title}</h2>
-                        <div>${content}</div>
-                    `;
-
+                    document.getElementById('fileContent').innerHTML = `<h1>${title}</h1>${content}`;
                     this.showView('fileView');
+                    hljs.highlightAll();
                 } catch (error) {
                     alert(`Failed to load file: ${error.message}`);
                 }
@@ -637,13 +852,13 @@
             markdownToHtml(md) {
                 let html = md;
 
-                // Process code blocks with language specification first
+                // Process code blocks with language specification
                 html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
                     const language = lang || 'plaintext';
                     const trimmedCode = code.trim();
                     const highlighted = hljs.highlight(trimmedCode, { language }).value;
                     const langLabel = language !== 'plaintext' ? `<div class="code-label">${language}</div>` : '';
-                    return `${langLabel}<pre><code class="language-${language} hljs">${highlighted}</code></pre>`;
+                    return `<div class="code-block"><div class="code-block-header">${langLabel}</div><pre><code class="hljs language-${language}">${highlighted}</code></pre></div>`;
                 });
 
                 // Process inline code
@@ -666,21 +881,20 @@
                 html = html.split('\n\n')
                     .map(para => {
                         if (para.trim().startsWith('<h') || para.trim().startsWith('<ul') ||
-                            para.trim().startsWith('<pre') || para.trim().startsWith('<div class="code-label"')) {
+                            para.trim().startsWith('<pre') || para.trim().startsWith('<div class="code-block"')) {
                             return para;
                         }
                         return para.trim() ? `<p>${para.trim()}</p>` : '';
                     })
                     .join('');
 
-                return `<div class="markdown-content">${html}</div>`;
+                return html;
             },
 
             search() {
                 const query = document.getElementById('searchInput').value.toLowerCase();
-
                 if (!query) {
-                    this.showCategories();
+                    this.showHome();
                     return;
                 }
 
@@ -690,35 +904,31 @@
                 );
 
                 if (results.length === 0) {
-                    this.showView('emptyState');
+                    this.showView('emptyView');
                     return;
                 }
 
                 const resultsContainer = document.getElementById('searchResults');
                 resultsContainer.innerHTML = '';
-
                 results.forEach(file => {
-                    const div = document.createElement('div');
-                    div.className = 'search-result';
-                    div.innerHTML = `
+                    const card = document.createElement('a');
+                    card.className = 'search-result-card';
+                    card.innerHTML = `
                         <div class="search-result-title">${file.displayName}</div>
                         <div class="search-result-category">${file.category}</div>
                     `;
-                    div.onclick = () => this.loadFile(file.path, file.displayName);
-                    resultsContainer.appendChild(div);
+                    card.onclick = (e) => {
+                        e.preventDefault();
+                        this.loadFile(file.path, file.displayName);
+                    };
+                    resultsContainer.appendChild(card);
                 });
 
                 this.showView('searchView');
             },
 
-            showCategories() {
-                this.renderCategories();
-                this.showView('categoriesView');
-                document.getElementById('searchInput').value = '';
-            },
-
             showView(viewId) {
-                document.querySelectorAll('.content-view').forEach(v => v.classList.remove('active'));
+                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
                 document.getElementById(viewId).classList.add('active');
             },
 
@@ -726,7 +936,9 @@
                 const searchInput = document.getElementById('searchInput');
                 searchInput.addEventListener('input', () => this.search());
 
-                // Keyboard shortcut
+                const themeToggle = document.getElementById('themeToggle');
+                themeToggle.addEventListener('click', () => this.toggleTheme());
+
                 document.addEventListener('keydown', (e) => {
                     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                         e.preventDefault();
@@ -736,7 +948,6 @@
             }
         };
 
-        // Initialize app
         app.init();
     </script>
 </body>
