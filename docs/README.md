@@ -16,11 +16,12 @@ Reference documentation and standards for this project.
 <!-- DOCS-INDEX:START -->
 | File | Title |
 |:-----|:------|
-| [STANDARDS.md](STANDARDS.md) | Development Standards |
 | [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) | Branching Strategy |
 | [COMMIT_STANDARDS.md](COMMIT_STANDARDS.md) | Commit Standards |
-| [RELEASE_STANDARDS.md](RELEASE_STANDARDS.md) | Release Standards |
 | [DOCUMENTATION_STANDARDS.md](DOCUMENTATION_STANDARDS.md) | Documentation Standards |
+| [LARAVEL-13-CHEATSHEET.md](LARAVEL-13-CHEATSHEET.md) | Laravel 13 Cheat Sheet |
+| [RELEASE_STANDARDS.md](RELEASE_STANDARDS.md) | Release Standards |
+| [STANDARDS.md](STANDARDS.md) | Development Standards |
 <!-- DOCS-INDEX:END -->
 
 ## For Contributors
