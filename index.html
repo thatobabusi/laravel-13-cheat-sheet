@@ -487,6 +487,41 @@
             background: var(--primary-hover);
         }
 
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 45, 32, 0.3);
+            z-index: 50;
+        }
+
+        .scroll-to-top.visible {
+            display: flex;
+        }
+
+        .scroll-to-top:hover {
+            background: var(--primary-hover);
+            box-shadow: 0 6px 16px rgba(255, 45, 32, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .scroll-to-top:active {
+            transform: translateY(0);
+        }
+
         /* Responsive */
         @media (max-width: 1200px) {
             .layout {
@@ -504,15 +539,26 @@
             }
 
             .sidebar {
-                position: static;
-                max-height: none;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                max-height: calc(100vh - 60px);
                 border-right: none;
                 border-bottom: 1px solid var(--border);
                 display: none;
+                z-index: 40;
+                overflow-y: auto;
+                background: var(--bg-secondary);
+                width: 100%;
             }
 
             .sidebar.open {
                 display: block;
+            }
+
+            .toc-sidebar {
+                display: none;
             }
 
             .main {
@@ -527,13 +573,130 @@
                 grid-template-columns: 1fr;
             }
 
+            .header-content {
+                padding: 0.75rem 1rem;
+                gap: 1rem;
+            }
+
+            .header-brand {
+                font-size: 1rem;
+            }
+
             .header-controls {
                 max-width: none;
-                flex: 0;
+                flex: 1;
+                gap: 0.5rem;
             }
 
             .search-input {
-                display: none;
+                padding: 0.4rem 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            .theme-toggle {
+                padding: 0.4rem 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .content h1 {
+                font-size: 1.5rem;
+            }
+
+            .content h2 {
+                font-size: 1.25rem;
+            }
+
+            .content h3 {
+                font-size: 1.1rem;
+            }
+
+            .content p {
+                font-size: 0.95rem;
+            }
+
+            .code-block {
+                margin: 1rem 0;
+            }
+
+            .code-block pre {
+                padding: 0.75rem;
+                font-size: 0.85em;
+            }
+
+            .scroll-to-top {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                font-size: 1.25rem;
+            }
+
+            .category-card {
+                padding: 1rem;
+            }
+
+            .back-button {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.5rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .page-description {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .main {
+                padding: 1rem 0.75rem;
+            }
+
+            .content h1 {
+                font-size: 1.4rem;
+                margin-top: 1.5rem;
+            }
+
+            .header-brand {
+                font-size: 0.9rem;
+            }
+
+            .search-input {
+                padding: 0.35rem 0.5rem;
+                font-size: 0.85rem;
+            }
+
+            .code-block {
+                border-radius: 4px;
+            }
+
+            .code-block-header {
+                padding: 0.5rem 0.75rem;
+            }
+
+            .code-block pre {
+                padding: 0.5rem;
+                font-size: 0.8em;
+            }
+
+            .scroll-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 2.25rem;
+                height: 2.25rem;
+                font-size: 1rem;
+            }
+
+            .categories-grid {
+                gap: 1rem;
+            }
+
+            .sidebar-section {
+                margin-bottom: 1rem;
             }
         }
 
@@ -622,6 +785,11 @@
             <ul class="toc-list" id="tocList"></ul>
         </aside>
     </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" title="Scroll to top" aria-label="Scroll to top">
+        ↑
+    </button>
 
     <script>
         const app = {
@@ -1035,6 +1203,23 @@
                         e.preventDefault();
                         searchInput.focus();
                     }
+                });
+
+                // Scroll to Top Button
+                const scrollToTopBtn = document.getElementById('scrollToTop');
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        scrollToTopBtn.classList.add('visible');
+                    } else {
+                        scrollToTopBtn.classList.remove('visible');
+                    }
+                });
+
+                scrollToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 });
             }
         };
