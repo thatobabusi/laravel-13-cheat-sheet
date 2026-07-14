@@ -8,7 +8,7 @@ This project follows professional development standards for code quality, git wo
 - **[Commit Standards](COMMIT_STANDARDS.md)** — Semantic commit messages and conventions
 - **[Release Standards](RELEASE_STANDARDS.md)** — Versioning, tagging, and release process
 - **[Documentation Standards](DOCUMENTATION_STANDARDS.md)** — Writing and organizing documentation
-- **[Quick Reference](../QUICK_REFERENCE.md)** — Fast lookup for common workflows
+- **[Quick Reference](QUICK_REFERENCE.md)** — Fast lookup for common workflows
 
 ## Standards Overview
 
@@ -41,12 +41,12 @@ This project follows professional development standards for code quality, git wo
 
 1. Read [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) to understand the workflow
 2. Review [COMMIT_STANDARDS.md](COMMIT_STANDARDS.md) for commit format
-3. Check [QUICK_REFERENCE.md](../QUICK_REFERENCE.md) for quick commands
+3. Check [QUICK_REFERENCE.md](QUICK_REFERENCE.md) for quick commands
 4. Follow the guidelines for each type of work
 
 ## Need Help?
 
-- Quick commands? See [QUICK_REFERENCE.md](../QUICK_REFERENCE.md)
+- Quick commands? See [QUICK_REFERENCE.md](QUICK_REFERENCE.md)
 - New to the project? Start with [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md)
 - Making a release? Check [RELEASE_STANDARDS.md](RELEASE_STANDARDS.md)
 - Writing docs? See [DOCUMENTATION_STANDARDS.md](DOCUMENTATION_STANDARDS.md)

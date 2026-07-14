@@ -9,7 +9,7 @@ Reference documentation and standards for this project.
 - **[Commit Standards](COMMIT_STANDARDS.md)** — Semantic commit format and conventions
 - **[Release Standards](RELEASE_STANDARDS.md)** — Versioning and release process
 - **[Documentation Standards](DOCUMENTATION_STANDARDS.md)** — Writing and organizing documentation
-- **[Quick Reference](../QUICK_REFERENCE.md)** — Fast lookup for common commands
+- **[Quick Reference](QUICK_REFERENCE.md)** — Fast lookup for common commands
 
 ## Documentation Files
 
@@ -29,7 +29,7 @@ Reference documentation and standards for this project.
 1. Start with [STANDARDS.md](STANDARDS.md) for an overview
 2. Read [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) before creating branches
 3. Follow [COMMIT_STANDARDS.md](COMMIT_STANDARDS.md) for all commits
-4. Check [QUICK_REFERENCE.md](../QUICK_REFERENCE.md) for quick lookup
+4. Check [QUICK_REFERENCE.md](QUICK_REFERENCE.md) for quick lookup
 
 ## Automated Maintenance
 

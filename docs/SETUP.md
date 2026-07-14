@@ -170,4 +170,4 @@ bundle exec jekyll build --verbose
 
 ## Questions?
 
-See `.github/workflows/pages-build.yml` for automated deployment details, or check the main [README.md](README.md).
+See `.github/workflows/pages-build.yml` for automated deployment details, or check the main [README.md](../README.md).

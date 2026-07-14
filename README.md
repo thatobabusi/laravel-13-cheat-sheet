@@ -23,7 +23,7 @@
 
 <br/>
 
-**[🌐 View Live](https://thatobabusi.github.io/laravel-13-cheat-sheet/)** · **[📚 Full Reference](LARAVEL-13-CHEATSHEET.md)** · **[📜 Changelog](CHANGELOG.md)** · **[⚙️ Setup](GITHUB-PAGES-SETUP.md)**
+**[🌐 View Live](https://thatobabusi.github.io/laravel-13-cheat-sheet/)** · **[📚 Full Reference](LARAVEL-13-CHEATSHEET.md)** · **[📜 Changelog](docs/CHANGELOG.md)** · **[⚙️ Setup](docs/GITHUB-PAGES-SETUP.md)**
 
 </div>
 
