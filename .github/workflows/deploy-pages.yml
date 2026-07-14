@@ -5,8 +5,13 @@ on:
     branches:
       - main
     paths:
-      - 'public/**'
+      - 'index.html'
+      - 'assets/**'
       - 'docs/cheatsheet/**'
+      - 'package.json'
+      - '.eslintrc.json'
+      - '.stylelintrc.json'
+      - '.htmlhintrc'
       - '.github/workflows/deploy-pages.yml'
   pull_request:
     branches:
@@ -23,7 +28,34 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint HTML
+        run: npm run lint:html
+
+      - name: Lint CSS
+        run: npm run lint:css
+
+      - name: Lint JavaScript
+        run: npm run lint:js
+
   deploy:
+    name: Deploy to GitHub Pages
+    needs: lint
+    if: success()
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
