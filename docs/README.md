@@ -17,11 +17,19 @@ Reference documentation and standards for this project.
 | File | Title |
 |:-----|:------|
 | [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) | Branching Strategy |
+| [CHANGELOG.md](CHANGELOG.md) | Changelog |
 | [COMMIT_STANDARDS.md](COMMIT_STANDARDS.md) | Commit Standards |
+| [DEPLOYMENT.md](DEPLOYMENT.md) | Deployment Checklist — Phase 1-4 Complete |
 | [DOCUMENTATION_STANDARDS.md](DOCUMENTATION_STANDARDS.md) | Documentation Standards |
+| [GITHUB-PAGES-SETUP.md](GITHUB-PAGES-SETUP.md) | GitHub Pages Setup Guide |
 | [LARAVEL-13-CHEATSHEET.md](LARAVEL-13-CHEATSHEET.md) | Laravel 13 Cheat Sheet |
+| [LINK-HEALTH.md](LINK-HEALTH.md) | Link Health |
+| [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | Quick Reference |
 | [RELEASE_STANDARDS.md](RELEASE_STANDARDS.md) | Release Standards |
+| [SETUP.md](SETUP.md) | Setup Guide — Local Development |
 | [STANDARDS.md](STANDARDS.md) | Development Standards |
+| [START-SERVER.md](START-SERVER.md) | How to View the Cheat Sheet |
+| [TESTING.md](TESTING.md) | End-to-End Testing Guide |
 <!-- DOCS-INDEX:END -->
 
 ## For Contributors
