@@ -1,6 +1,6 @@
 {
   "name": "laravel-13-cheat-sheet",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Comprehensive Laravel 13 reference with organized categories and full-text search",
   "type": "module",
   "scripts": {
